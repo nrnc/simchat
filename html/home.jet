@@ -60,6 +60,8 @@
         }
         socket.onmessage = (msg)=>{
             console.log(msg)
+            let j = msg.data
+            console.log(j)
         }
     })
     
