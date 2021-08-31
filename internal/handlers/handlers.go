@@ -102,6 +102,10 @@ func ListenToWsChannel() {
 			response.Action = "list_users"
 			response.ConnectedUsers = getListOfUsers()
 			broadcastToAll(response)
+		case "broadcast":
+			response.Action = e.Action
+			response.Message = fmt.Sprintf("<strong>%s</strong>: %s", e.Username, e.Message)
+			broadcastToAll(response)
 		}
 
 	}
@@ -122,7 +126,7 @@ func broadcastToAll(response WsJsonResponse) {
 	for client := range clients {
 		err := client.WriteJSON(response)
 		if err != nil {
-			log.Println("websocket err")
+			log.Println("websocket err", err)
 			_ = client.Close()
 			delete(clients, client)
 		}
